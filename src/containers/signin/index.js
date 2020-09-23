@@ -23,10 +23,11 @@ loginform = (e) => {
 
     axios.post("https://myapp-backend.herokuapp.com/api/admin/signin", this.state).then((res)=>{
       if(res){
-
+        alert("Logged in")
         window.location.href = "/add-new";
 
       }else{
+		alert("incorrect password")
         window.location.href = "/signup";
       }
   })
