@@ -19,14 +19,13 @@ class Signup extends React.Component {
     signup = (e) => {
 
          e.preventDefault()
-         axios.post("http://localhost:2000/api/admin/signup", this.state).then((res)=>{
+         axios.post("https://myapp-backend.herokuapp.com/api/admin/signup", this.state).then((res)=>{
              if(res){
               alert("added")
               window.location.href = "/signin";
              }else{
                this.setState1({msg:"incorrect password"})
-              window.location.href = "/signup";
-              
+				window.location.href = "/signup";
              }
          })
       };

@@ -40,7 +40,7 @@ class AddCar extends React.Component {
 
     console.log(...formData);
     axios
-      .post("http://localhost:2000/api/admin/create", formData)
+      .post("https://myapp-backend.herokuapp.com/api/admin/create", formData)
       .then((err, res) => {
         if (res) {
           console.log("uploaded");

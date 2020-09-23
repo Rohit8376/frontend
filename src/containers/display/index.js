@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Table } from "react-bootstrap";
 import Layout from "../../components/Layout";
 import axios from "axios";
-// import { ExcelRenderer, OutTable } from "react-excel-renderer"
 
 class Signin extends React.Component {
   constructor(props) {
@@ -21,17 +20,14 @@ class Signin extends React.Component {
             : "Na",
       };
     });
-
     this.setState({ specification: tempdata });
   };
 
   async componentDidMount() {
-
-    const cardata = await axios.get('http://localhost:2000/api/getcar');
+    const cardata = await axios.get('https://myapp-backend.herokuapp.com/api/getcar');
     this.setState({cardata:cardata.data.data})
-    const res = await axios.get("http://localhost:2000/getfile/kHjSiPeHk6_Mercedes.xlsx");
+    const res = await axios.get("https://myapp-backend.herokuapp.com/getfile/kHjSiPeHk6_Mercedes.xlsx");
     this.fileHandler(res.data);
-
   }
 
   
