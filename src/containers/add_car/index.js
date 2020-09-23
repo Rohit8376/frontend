@@ -43,7 +43,7 @@ class AddCar extends React.Component {
       .post("https://myapp-backend.herokuapp.com/api/admin/create", formData)
       .then((err, res) => {
         if (res) {
-          console.log("uploaded");
+          window.location.reload(false);
         }
       });
   };
