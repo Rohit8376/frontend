@@ -2,25 +2,65 @@ import React from "react";
 import { Container, Table } from "react-bootstrap";
 import Layout from "../../components/Layout";
 import axios from "axios";
+// import { ExcelRenderer, OutTable } from "react-excel-renderer"
 
 class Signin extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { specification: [] , cardata:[] , carName:"Mercedes-bens-c220d"};
+    this.state = {
+      specification: [],
+      cardata: [],
+      carName: "Mercedes-bens-c220d",
+    };
   }
 
   fileHandler = (fileObj) => {
-    const tempdata = fileObj.map((data) => {
-      return {
-        spec: data["Feature List / Models"],
-        value:
-          data["C 220d Progressive"] !== undefined
-            ? data["C 220d Progressive"]
-            : "Na",
-      };
+    let final_data = [];
+
+    const categaryis = [
+      "Body Type",
+      "Engine & Transmission",
+      "Hybrid System",
+      "Performance & Efficiency",
+      "Exterior Equipment",
+      "Interior Equipment",
+      "Seats & Upholstery",
+      "Entertainment Front",
+      "Entertainment Rear",
+      "Safety Equipments",
+      "Suspension, Brakes, Wheels & Tires",
+      "Dimensions, Weight, Storage, Capacity",
+      "Warranty & Service Package",
+      "Exterior Colours",
+    ];
+
+    let temp = [];
+    let second = "";
+    fileObj.map((data) => {
+      let first = data["Feature List / Models"];
+
+      if (categaryis.includes(data["Feature List / Models"])) {
+        final_data.push({ type: second, spec: temp });
+        temp = [];
+        second = first;
+      } else {
+        first = "";
+        temp.push({
+          spec: data["Feature List / Models"],
+          value:
+            data["C 220d Progressive"] !== undefined
+              ? data["C 220d Progressive"]
+              : "Na",
+        });
+      }
     });
-    this.setState({ specification: tempdata });
+    final_data.shift();
+    final_data.shift();
+
+    console.log(final_data);
+
+    this.setState({ specification: final_data });
   };
 
   async componentDidMount() {
@@ -30,14 +70,12 @@ class Signin extends React.Component {
     this.fileHandler(res.data);
   }
 
-  
   render() {
     return (
       <>
         <Layout>
           <Container>
             <br />
-
 
             <h1>{this.state.carName}</h1>
             <img
@@ -51,24 +89,22 @@ class Signin extends React.Component {
             <h1>Genric Specification </h1>
             <br></br>
 
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <td>specification</td>
-                  <td>values</td>
-                </tr>
-              </thead>
-              
-              <tbody>
-                {this.state.specification.map((res, index) => (
-                  <tr key={index}>
-                    <td>{res.spec}</td>
-                    <td>{res.value}</td>
-                  </tr>
-                ))}
-              </tbody>
-              
-            </Table>
+            {this.state.specification.map((res, index) => (
+              <>
+                <h4 style={{ color: "red" }}>{res.type}</h4>
+
+                <Table bordered>
+                  <tbody>
+                    {res.spec.map((col, colindex) => (
+                      <tr>
+                        <td>{col.spec}</td>
+                        <td>{col.value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </>
+            ))}
           </Container>
         </Layout>
       </>
@@ -77,3 +113,4 @@ class Signin extends React.Component {
 }
 
 export default Signin;
+
