@@ -64,9 +64,13 @@ class Signin extends React.Component {
   };
 
   async componentDidMount() {
-    const cardata = await axios.get('https://myapp-backend.herokuapp.com/api/getcar');
-    this.setState({cardata:cardata.data.data})
-    const res = await axios.get("https://myapp-backend.herokuapp.com/getfile/kHjSiPeHk6_Mercedes.xlsx");
+    const cardata = await axios.get(
+      "https://myapp-backend.herokuapp.com/api/getcar"
+    );
+    this.setState({ cardata: cardata.data.data });
+    const res = await axios.get(
+      "https://myapp-backend.herokuapp.com/getfile/kHjSiPeHk6_Mercedes.xlsx"
+    );
     this.fileHandler(res.data);
   }
 
@@ -91,12 +95,12 @@ class Signin extends React.Component {
 
             {this.state.specification.map((res, index) => (
               <>
-                <h4 style={{ color: "red" }}>{res.type}</h4>
+                <h4 key={index} style={{ color: "red" }}>{res.type}</h4>
 
                 <Table bordered>
                   <tbody>
                     {res.spec.map((col, colindex) => (
-                      <tr>
+                      <tr key={colindex}>
                         <td>{col.spec}</td>
                         <td>{col.value}</td>
                       </tr>
@@ -113,4 +117,3 @@ class Signin extends React.Component {
 }
 
 export default Signin;
-
